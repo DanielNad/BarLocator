@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IDao<T,U,V,S> {
      boolean remove (S object) throws IOException;
-     List<T> readAll ();
+     boolean readAll ();
      boolean write (T object);
      boolean remove (S object, S object1) throws IOException;
      boolean write (S object, U object1);

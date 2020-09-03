@@ -1,11 +1,11 @@
 package main.java.com.barlocator.dao;
-import main.java.com.barlocator.dm.Bar;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class IDaoAbstract<T> {
+    //TODO: 03/09/2020 = Change data to HashMap;
     protected List<T> data ;
     private String filePath;
     private InputStream in;
@@ -27,7 +27,6 @@ public abstract class IDaoAbstract<T> {
         this.objectInputStream.close();
         this.in.close();
     }
-
 
     public void openFileToWrite() throws IOException {
         this.out = new FileOutputStream(filePath);

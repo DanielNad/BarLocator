@@ -6,7 +6,6 @@ import main.java.com.barlocator.dm.Menu;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class DaoFileImpl extends IDaoAbstract<Bar> implements IDao<Bar, Menu, Item, String> {
 
@@ -26,7 +25,7 @@ public class DaoFileImpl extends IDaoAbstract<Bar> implements IDao<Bar, Menu, It
     private Menu findMenu(String barName ,String menuName) {
         int i = findBar(barName);
         if (i !=- 1) {
-            this.data.get(i).getMenu();
+            return this.data.get(i).getMenu().get(menuName);
         }
         return null;
     }
@@ -51,17 +50,18 @@ public class DaoFileImpl extends IDaoAbstract<Bar> implements IDao<Bar, Menu, It
     }
 
     @Override
-    public List<Bar> readAll() {
+    public boolean readAll() {
         try {
             this.openFileToRead();
             data = (ArrayList<Bar>) this.getObjectInputStream().readObject();
             this.closeFileToRead();
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return data;
+        return false;
     }
 
     @Override
