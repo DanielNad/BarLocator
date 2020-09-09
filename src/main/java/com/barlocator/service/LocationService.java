@@ -1,9 +1,12 @@
 package main.java.com.barlocator.service;
 
 import com.locator.algorithms.IAlgoDistance;
+import com.locator.algorithms.datastructures.Graph;
 import main.java.com.barlocator.dao.IDao;
 
-public class LocationService {
+import java.io.IOException;
+
+public class LocationService <T, U, V, S> {
     private IAlgoDistance algoDistance;
     private IDao dataManager;
 
@@ -12,19 +15,45 @@ public class LocationService {
         this.dataManager = dataManager;
     }
 
-    public IAlgoDistance getAlgoDistance() {
-        return algoDistance;
+    public Graph<T> getGraph(){
+        return dataManager.getGraph();
     }
 
-    public void setAlgoDistance(IAlgoDistance algoDistance) {
-        this.algoDistance = algoDistance;
+    public int[] calculateDistance(Graph var1, int var2){
+        return algoDistance.calculateDistance(var1,var2);
     }
 
-    public IDao getDataManager() {
-        return dataManager;
+    public boolean remove (S object) throws IOException{
+        return dataManager.remove(object);
     }
 
-    public void setDataManager(IDao dataManager) {
-        this.dataManager = dataManager;
+    public boolean readAll (){
+        return dataManager.readAll();
     }
+
+    public boolean write (T object){
+        return dataManager.write(object);
+    }
+
+    public boolean remove (S object, S object1) throws IOException{
+        return dataManager.remove(object,object1);
+    }
+
+    public boolean write (S object, U object1){
+        return dataManager.write(object,object1);
+    }
+
+    public boolean remove (S object, S object1, S object2){
+        return dataManager.remove(object,object1,object2);
+    }
+
+    public boolean write (S object, S object1, V object2){
+        return dataManager.write(object,object1,object2);
+    }
+
+    public boolean addEdge (S objectFrom, S objectTo, int weight ){
+        return dataManager.addEdge(objectFrom,objectTo,weight);
+    }
+
+
 }
