@@ -1,5 +1,7 @@
 package main.java.com.barlocator.dao;
 
+import com.locator.algorithms.datastructures.Graph;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,11 +9,12 @@ import java.util.List;
 public abstract class IDaoAbstract<T> {
     //TODO: 03/09/2020 = Change data to HashMap;
     protected List<T> data ;
-    private String filePath;
-    private InputStream in;
-    private OutputStream out;
-    private ObjectInputStream objectInputStream;
-    private ObjectOutputStream objectOutputStream;
+    protected Graph<T> graph;
+    protected String filePath;
+    protected InputStream in;
+    protected OutputStream out;
+    protected ObjectInputStream objectInputStream;
+    protected ObjectOutputStream objectOutputStream;
 
     public IDaoAbstract(String filePath)  {
         this.filePath = filePath;
@@ -36,6 +39,14 @@ public abstract class IDaoAbstract<T> {
     public void closeFileToWrite() throws IOException {
         this.objectOutputStream.close();
         this.out.close();
+    }
+
+    public Graph<T> getGraph() {
+        return graph;
+    }
+
+    public void setGraph(Graph<T> graph) {
+        this.graph = graph;
     }
 
     public String getFilePath() {

@@ -1,5 +1,6 @@
 package main.java.com.barlocator.dao;
 
+import com.locator.algorithms.datastructures.Graph;
 import main.java.com.barlocator.dm.Bar;
 import main.java.com.barlocator.dm.Item;
 import main.java.com.barlocator.dm.Menu;
@@ -9,8 +10,19 @@ import java.util.ArrayList;
 
 public class DaoFileImpl extends IDaoAbstract<Bar> implements IDao<Bar, Menu, Item, String> {
 
-    public DaoFileImpl(String filePath) {
+    private static DaoFileImpl instance = null;
+
+    private DaoFileImpl(String filePath) {
         super(filePath);
+        this.graph = new Graph<>(data.size() , this.data);
+    }
+
+    public static DaoFileImpl getInstance(String filePath){
+        if(instance != null && instance.filePath.equals(filePath)){
+            return instance;
+        } else {
+            return instance = new DaoFileImpl(filePath);
+        }
     }
 
     private int findBar(String barName) {
@@ -33,7 +45,7 @@ public class DaoFileImpl extends IDaoAbstract<Bar> implements IDao<Bar, Menu, It
     private boolean writeAll() {
         try {
             this.openFileToWrite();
-            this.getObjectOutputStream().writeObject(data);
+            this.getObjectOutputStream().writeObject(graph);
             this.closeFileToWrite();
             return true;
         } catch (IOException e) {
@@ -44,8 +56,10 @@ public class DaoFileImpl extends IDaoAbstract<Bar> implements IDao<Bar, Menu, It
     @Override
     public boolean remove(String barName) throws IOException {
                 int i = findBar(barName);
-                if (i != -1)
+                if (i != -1) {
                     data.remove(i);
+                    graph = new Graph<>(data.size(),data);
+                }
                 return writeAll();
     }
 
@@ -53,7 +67,10 @@ public class DaoFileImpl extends IDaoAbstract<Bar> implements IDao<Bar, Menu, It
     public boolean readAll() {
         try {
             this.openFileToRead();
-            data = (ArrayList<Bar>) this.getObjectInputStream().readObject();
+            graph = (Graph<Bar>) this.getObjectInputStream().readObject();
+            for (int i:graph.getBars().keySet()) {
+                data.add(graph.getBars().get(i));
+            }
             this.closeFileToRead();
             return true;
         } catch (IOException e) {
@@ -67,6 +84,7 @@ public class DaoFileImpl extends IDaoAbstract<Bar> implements IDao<Bar, Menu, It
     @Override
     public boolean write(Bar object) {
         data.add(object);
+        graph = new Graph<>(data.size(), data);
         return writeAll();
     }
 
@@ -107,6 +125,24 @@ public class DaoFileImpl extends IDaoAbstract<Bar> implements IDao<Bar, Menu, It
         if(menu != null){
             menu.addToMenu(item);
             return writeAll();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addEdge(String barName1, String barName2, int weight) {
+        int source = -1;
+        int destination = -1;
+        for (int i = 0; i <  data.size(); i++) {
+            if(data.get(i).getBarName() == barName1){
+                source = i;
+            } else if (data.get(i).getBarName() == barName2){
+                destination = i;
+            }
+        }
+        if(source != -1 && destination != -1){
+        graph.addEdge(source,destination,weight);
+        return writeAll();
         }
         return false;
     }
