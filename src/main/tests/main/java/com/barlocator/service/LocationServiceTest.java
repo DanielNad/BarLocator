@@ -65,7 +65,6 @@ public class LocationServiceTest {
         service.remove(bar2.getBarName());
         if(validateBar(bar2))
             assertTrue(false);
-
         else
             assertTrue(true);
     }
