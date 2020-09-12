@@ -1,15 +1,12 @@
 package main.java.com.barlocator.dao;
 
 import com.locator.algorithms.datastructures.Graph;
-import main.java.com.barlocator.dm.Bar;
-import main.java.com.barlocator.dm.Item;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+
 
 public interface IDao<T,U,V,S> {
      Graph<T> getGraph();
+     boolean removeAll() throws IOException;
      boolean remove (S object) throws IOException;
      boolean readAll ();
      boolean write (T object);

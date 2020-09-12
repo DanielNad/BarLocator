@@ -55,5 +55,7 @@ public class LocationService <T, U, V, S> {
         return dataManager.addEdge(objectFrom,objectTo,weight);
     }
 
-
+    public boolean removeAll() throws IOException {
+        return this.dataManager.removeAll();
+    }
 }

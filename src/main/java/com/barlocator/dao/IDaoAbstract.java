@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class IDaoAbstract<T> {
-    //TODO: 03/09/2020 = Change data to HashMap;
     protected List<T> data ;
     protected Graph<T> graph;
     protected String filePath;
