@@ -10,9 +10,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class LocationServiceTest {
 
@@ -20,25 +19,14 @@ public class LocationServiceTest {
             new DijkstraDistanceAlgo(),
             DaoFileImpl.getInstance("src/main/resources/dataResource.txt")
     );
-    private static Bar bar1 = new Bar("Zoypher","Keep your distance from the pool near the bar!");;
-    private static Item item1 = new Item("Steak", 90);
-    @Before
-    public void create(){
-        bar1 = new Bar("Zoypher","Keep your distance from the pool near the bar!");
-        Menu menu1 = new Menu("Deals");
-        Menu menu2 = new Menu("Deserts");
-        item1 = new Item("Steak", 90);
-        Item item2 = new Item("Pizza",65);
-        Item item3 = new Item("Ice cream", 30);
-        Item item4 = new Item("Cake",25);
+    static Bar bar = new Bar("Teder","Great pizza but a bit expensive");
+    static Menu menu = new Menu("Deals");
+    static Item item = new Item("Steak", 90);
+    static int i = 0;
 
-        menu1.addToMenu(item1);
-        menu1.addToMenu(item2);
-        menu2.addToMenu(item3);
-        menu2.addToMenu(item4);
-        bar1.addToMenu(menu1);
-        bar1.addToMenu(menu2);
-        service.write(bar1);
+    @Before
+    public void beforeEach() throws IOException {
+        service.removeAll();
     }
 
     public boolean validateBar(Bar bar){
@@ -60,67 +48,52 @@ public class LocationServiceTest {
 
     @Test
     public void removeBar() throws IOException {
-        Bar bar2 = new Bar("Teder","Great pizza but a bit expensive");
-        service.write(bar2);
-        service.remove(bar2.getBarName());
-        if(validateBar(bar2))
-            assertTrue(false);
-        else
-            assertTrue(true);
+        service.write(bar);
+        service.remove(bar.getBarName());
+        assertFalse(validateBar(bar));
     }
 
     @Test
-    public void readAll() {
+    public void readAll() throws IOException {
         service.readAll();
-        if(validateBar(bar1))
-            assertTrue(true);
-        else
-            assertTrue(false);
+        assertFalse(validateBar(bar));
     }
 
     @Test
     public void writeBar() throws IOException {
-        Bar bar2 = new Bar("Teder","Great pizza but a bit expensive");
-        service.write(bar2);
-        if(validateBar(bar2))
-            assertTrue(true);
-        else
-            assertTrue(false);
+        service.write(bar);
+        assertTrue(validateBar(bar));
     }
 
     @Test
     public void removeMenu() throws IOException {
-        service.remove(bar1.getBarName(),bar1.getMenu().get("Deals").getSubMenuName());
-        if(validateMenu(bar1, "Deals"))
-            assertTrue(false);
-        else
-            assertTrue(true);
+        bar.addToMenu(menu);
+        service.write(bar);
+        service.remove(bar.getBarName(),bar.getMenu().get("Deals").getSubMenuName());
+        assertFalse(validateMenu(bar,"Deals"));
     }
 
     @Test
     public void writeMenu() {
-        service.write(bar1.getBarName(),new Menu("Drink"));
-        if(validateMenu(bar1,"Drink"))
-            assertTrue(true);
-        else
-            assertTrue(false);
+        service.write(bar.getBarName(),menu);
+        assertTrue(validateMenu(bar,menu.getSubMenuName()));
     }
 
     @Test
     public void removeItem() {
-        service.remove(bar1.getBarName(),bar1.getMenu().get("Deals").getSubMenuName(),item1.getItemName());
-        if(validateItem(bar1,bar1.getMenu().get("Deals"),"Steak"))
-            assertTrue(false);
-        else
-            assertTrue(true);
+        bar.addToMenu(menu);
+        menu.addToMenu(item);
+        service.write(bar);
+        service.remove(bar.getBarName(),bar.getMenu().get("Deals").getSubMenuName(),item.getItemName());
+        assertFalse(validateItem(bar,menu,item.getItemName()));
+
     }
 
     @Test
     public void writeItem() {
-        service.write(bar1.getBarName(),bar1.getMenu().get("Deals").getSubMenuName(),new Item("Fish",70));
-        if(validateItem(bar1,bar1.getMenu().get("Deals"),"Fish"))
-            assertTrue(true);
-        else
-            assertTrue(false);
+        bar.addToMenu(menu);
+        service.write(bar);
+        service.write(bar.getBarName(),bar.getMenu().get("Deals").getSubMenuName(),item);
+        assertTrue(validateItem(bar,menu,item.getItemName()));
     }
 }

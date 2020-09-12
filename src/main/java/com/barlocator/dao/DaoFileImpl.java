@@ -4,7 +4,6 @@ import com.locator.algorithms.datastructures.Graph;
 import main.java.com.barlocator.dm.Bar;
 import main.java.com.barlocator.dm.Item;
 import main.java.com.barlocator.dm.Menu;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -18,11 +17,9 @@ public class DaoFileImpl extends IDaoAbstract<Bar> implements IDao<Bar, Menu, It
     }
 
     public static DaoFileImpl getInstance(String filePath){
-        if(instance != null && instance.filePath.equals(filePath)){
-            return instance;
-        } else {
-            return instance = new DaoFileImpl(filePath);
-        }
+        if(instance == null)
+             instance = new DaoFileImpl(filePath);
+        return instance ;
     }
 
     private int findBar(String barName) {
@@ -51,6 +48,13 @@ public class DaoFileImpl extends IDaoAbstract<Bar> implements IDao<Bar, Menu, It
         } catch (IOException e) {
             return false;
         }
+    }
+
+    @Override
+    public boolean removeAll() throws IOException {
+        this.data = new ArrayList<>();
+        this.graph = new Graph<>(0,data);
+        return writeAll();
     }
 
     @Override
