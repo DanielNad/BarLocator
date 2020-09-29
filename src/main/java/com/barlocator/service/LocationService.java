@@ -1,5 +1,7 @@
 package main.java.com.barlocator.service;
 
+import com.locator.algorithms.BasicDistanceAlgo;
+import com.locator.algorithms.DijkstraDistanceAlgo;
 import com.locator.algorithms.IAlgoDistance;
 import com.locator.algorithms.datastructures.Graph;
 import main.java.com.barlocator.dao.IDao;
@@ -57,5 +59,12 @@ public class LocationService <T, U, V, S> {
 
     public boolean removeAll() throws IOException {
         return this.dataManager.removeAll();
+    }
+
+    public void setAlgo(boolean key){
+        if(key){
+            this.algoDistance = new DijkstraDistanceAlgo();
+        }
+        this.algoDistance = new BasicDistanceAlgo();
     }
 }

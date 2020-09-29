@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Driver {
+public class ClientDriver {
     public static void main(String[] args) throws IOException {
         Socket myServer = new Socket("localhost",3000);
         PrintWriter output=new PrintWriter(myServer.getOutputStream());
@@ -21,6 +21,9 @@ public class Driver {
         Gson gson = new Gson();
         String sun = gson.toJson(req);
         output.write(gson.toJson(req));
-
+        output.flush();
+        output.close();
+        input.close();
+        myServer.close();
     }
 }

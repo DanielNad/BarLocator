@@ -1,5 +1,6 @@
 package main.java.com.barlocator.server;
 
+import com.locator.algorithms.datastructures.Graph;
 import main.java.com.barlocator.dm.Bar;
 import main.java.com.barlocator.dm.Item;
 import main.java.com.barlocator.dm.Menu;
@@ -8,10 +9,16 @@ public class BodyBuilder {
     private Bar bar;
     private Menu menu;
     private Item item;
+    private Graph<Bar> graph;
     private String type;
     private String barName;
     private String menuName;
     private String itemName;
+    private  String barTo;
+    private int weight;
+    private int i;
+    private int[] distance;
+    private String status;
 
     public BodyBuilder bar (Bar bar){
         this.bar = bar;
@@ -25,6 +32,11 @@ public class BodyBuilder {
 
     public BodyBuilder item (Item item){
         this.item = item;
+        return this;
+    }
+
+    public BodyBuilder graph(Graph graph){
+        this.graph = graph;
         return this;
     }
 
@@ -48,15 +60,42 @@ public class BodyBuilder {
         return this;
     }
 
+    public BodyBuilder barTo (String barTo){
+        this.barTo = barTo;
+        return this;
+    }
+
+    public BodyBuilder i (int i){
+        this.i = i;
+        return this;
+    }
+
+    public BodyBuilder distance (int[] distance){
+        this.distance = distance;
+        return this;
+    }
+
+    public BodyBuilder weight (int weight){
+        this.weight = weight;
+        return this;
+    }
+
+    public BodyBuilder status(String status){
+        this.status = status;
+        return this;
+    }
+
     public  Body build(){
         Body body = new Body();
         body.setBar(bar);
         body.setMenu(menu);
         body.setItem(item);
+        body.setGraph(graph);
         body.setType(type);
         body.setBarName(barName);
         body.setMenuName(menuName);
         body.setItemName(itemName);
+        body.setI(i);
         return body;
     }
 }

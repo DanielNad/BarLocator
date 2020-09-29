@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class DaoFileImpl extends IDaoAbstract<Bar> implements IDao<Bar, Menu, Item, String> {
 
     private static DaoFileImpl instance = null;
+    private int[][] matrix;
 
     private DaoFileImpl(String filePath) {
         super(filePath);
@@ -20,6 +21,36 @@ public class DaoFileImpl extends IDaoAbstract<Bar> implements IDao<Bar, Menu, It
         if(instance == null)
              instance = new DaoFileImpl(filePath);
         return instance ;
+    }
+
+    private void removeIndex(int k){
+        matrix = new int[graph.getVertices()-1][graph.getVertices()-1];
+        for (int i = 0; i <graph.getVertices() ; i++) {
+            for (int j = 0; j <graph.getVertices() ; j++) {
+                if(i>k){
+                    if(j>k){
+                        matrix[i-1][j-1] = graph.getMatrix()[i][j];
+                    }else if(j<k){
+                        matrix[i-1][j] = graph.getMatrix()[i][j];
+                    }
+                }else if(i<k){
+                    if(j>k){
+                        matrix[i][j-1] = graph.getMatrix()[i][j];
+                    }else if(j<k){
+                        matrix[i][j] = graph.getMatrix()[i][j];
+                    }
+                }
+            }
+        }
+    }
+
+    private void addIndex(){
+        matrix = new int[graph.getVertices() + 1][graph.getVertices() + 1];
+        for (int i = 0; i < graph.getVertices() ; i++) {
+            for (int j = 0; j < graph.getVertices(); j++) {
+                matrix[i][j] = graph.getMatrix()[i][j];
+            }
+        }
     }
 
     private int findBar(String barName) {
@@ -62,7 +93,9 @@ public class DaoFileImpl extends IDaoAbstract<Bar> implements IDao<Bar, Menu, It
                 int i = findBar(barName);
                 if (i != -1) {
                     data.remove(i);
+                    this.removeIndex(i);
                     graph = new Graph<>(data.size(),data);
+                    graph.setMatrix(matrix);
                 }
                 return writeAll();
     }
@@ -88,7 +121,9 @@ public class DaoFileImpl extends IDaoAbstract<Bar> implements IDao<Bar, Menu, It
     @Override
     public boolean write(Bar object) {
         data.add(object);
+        this.addIndex();
         graph = new Graph<>(data.size(), data);
+        graph.setMatrix(matrix);
         return writeAll();
     }
 
