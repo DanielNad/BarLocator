@@ -20,9 +20,13 @@ public abstract class IDaoAbstract<T> {
         this.data = new ArrayList<>();
     }
 
-    public void openFileToRead() throws IOException {
+    public boolean openFileToRead() throws IOException {
         this.in = new FileInputStream(filePath);
-        this.objectInputStream = new ObjectInputStream(in);
+        if(in.available() != 0) {
+            this.objectInputStream = new ObjectInputStream(in);
+            return true;
+        }
+        return false;
     }
 
     public void closeFileToRead() throws IOException {

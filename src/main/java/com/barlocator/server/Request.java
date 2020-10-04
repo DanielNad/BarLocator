@@ -1,22 +1,20 @@
 package main.java.com.barlocator.server;
 
-
-
 public class Request {
-    private Header headers;
+    private Header header;
     private Body body;
 
     public Request(Header headers, Body body) {
-        this.headers = headers;
+        this.header = headers;
         this.body = body;
     }
 
-    public Header getHeaders() {
-        return headers;
+    public Header getHeader() {
+        return header;
     }
 
-    public void setHeaders(Header headers) {
-        this.headers = headers;
+    public void setHeader(Header header) {
+        this.header = header;
     }
 
     public Body getBody() {

@@ -3,57 +3,174 @@ package main.java.com.barlocator.server;
 import com.google.gson.Gson;
 import main.java.com.barlocator.service.Controller;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class HandleRequest implements Runnable {
+    private Socket client;
     private Request req;
     private Response res;
+    private DataInputStream in;
+    private DataOutputStream out;
     private Gson gson;
     private Controller controller;
+    private int [] distance;
 
     public HandleRequest(Socket client,Controller controller ) {
-        Scanner input;
+        this.client = client;
         this.controller = controller;
+        this.res = new Response(new Body());
         try {
-            input = new Scanner(client.getInputStream());
+            in = new DataInputStream(client.getInputStream());
+            out = new DataOutputStream(client.getOutputStream());
             gson = new Gson();
-            String messageFromServer="";
-            while (input.hasNextLine()) {
-                messageFromServer =messageFromServer + input.nextLine();
-            }
-            req = gson.fromJson(messageFromServer,Request.class);
+            String messageFromClient = "";
+            messageFromClient = in.readUTF();
+            req = gson.fromJson(messageFromClient,Request.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void handlePost(){
-        switch (req.getBody().getType()){
-            case "bar" :
-                controller.write(req.getBody().getBar());
-                break;
-            case "menu" :
-                break;
-            case "item" :
-                break;
-        }
-    }
-
     @Override
     public void run() {
-        switch (req.getHeaders().getAction()){
-            case "GET" :
+        switch (req.getHeader().getAction()){
+            case "GET":
+                handleGet();
                 break;
             case "POST" :
                 handlePost();
                 break;
             case "DELETE" :
+                handleDelete();
+                break;
+            default:
+                handleResponse();
+                break;
+        }
+    }
+
+    private void handleGet(){
+        switch (req.getBody().getType()){
+            case "graph" :
+                execute(controller.readAll());
+                break;
+            case "dijkstra" :
+                controller.setAlgo(true);
+                distance = controller.calculateDistance(controller.getGraph(),req.getBody().getI());
+                break;
+            case "basic" :
+                controller.setAlgo(false);
+                distance = controller.calculateDistance(controller.getGraph(),req.getBody().getI());
+                break;
+            default :
+                break;
+        }
+        if(req.getBody().getType().equals("dijkstra") || req.getBody().getType().equals("basic")){
+            if (distance != null) {
+                execute(true);
+            } else {
+                execute(false);
+            }
+        }
+        handleStatus();
+    }
+
+    private void handlePost(){
+        switch (req.getBody().getType()){
+            case "bar" :
+                execute(controller.write(req.getBody().getBar()));
+                break;
+            case "menu" :
+                execute(controller.write(req.getBody().getBarName(),req.getBody().getMenu()));
+                break;
+            case "item" :
+                execute(controller.write(req.getBody().getBarName(),req.getBody().getMenuName(),req.getBody().getItem()));
+                break;
+            case "edge" :
+                execute(controller.addEdge(req.getBody().getBarName(),req.getBody().getBarTo(),req.getBody().getWeight()));
+                break;
+        }
+        handleStatus();
+    }
+
+    private void handleDelete(){
+        switch (req.getBody().getType()){
+            case "bar" :
+                try {
+                    execute(controller.remove(req.getBody().getBarName()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "menu" :
+                try {
+                    execute(controller.remove(req.getBody().getBarName(),req.getBody().getMenuName()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "item" :
+                execute(controller.remove(req.getBody().getBarName(),req.getBody().getMenuName(),req.getBody().getItemName()));
+                break;
+            case "graph" :
+                try {
+                    execute(controller.removeAll());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+        handleStatus();
+    }
+
+    private void execute(boolean status){
+        if (status) {
+            res.setBody(new BodyBuilder().status("ok").build());
+        } else {
+            res.setBody(new BodyBuilder().status("error").build());
+        }
+    }
+
+    private void handleStatus(){
+        switch (res.getBody().getStatus()) {
+            case "ok" :
+                handleResponse();
+                break;
+            default:
+                response();
+                break;
+        }
+    }
+
+    private void handleResponse(){
+        switch (req.getBody().getType()){
+            case "dijkstra" :
+                res.getBody().setType("dijkstra");
+                res.getBody().setDistance(distance);
+                break;
+            case "basic" :
+                res.getBody().setType("basic");
+                res.getBody().setDistance(distance);
+                break;
+            case "graph" :
+                res.getBody().setType("graph");
+                res.getBody().setGraph(controller.getGraph());
                 break;
             default:
                 break;
+        }
+        response();
+    }
+
+    private void response(){
+        try {
+            out.writeUTF(gson.toJson(res));
+            client.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
