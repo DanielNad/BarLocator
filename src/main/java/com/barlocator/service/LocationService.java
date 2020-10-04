@@ -64,7 +64,8 @@ public class LocationService <T, U, V, S> {
     public void setAlgo(boolean key){
         if(key){
             this.algoDistance = new DijkstraDistanceAlgo();
+        } else {
+            this.algoDistance = new BasicDistanceAlgo();
         }
-        this.algoDistance = new BasicDistanceAlgo();
     }
 }

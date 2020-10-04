@@ -96,6 +96,10 @@ public class BodyBuilder {
         body.setMenuName(menuName);
         body.setItemName(itemName);
         body.setI(i);
+        body.setBarTo(barTo);
+        body.setStatus(status);
+        body.setDistance(distance);
+        body.setWeight(weight);
         return body;
     }
 }

@@ -14,4 +14,11 @@ public class Response {
     public void setBody(Body body) {
         this.body = body;
     }
+
+    @Override
+    public String toString() {
+        return "Response{" +
+                "body=" + body +
+                '}';
+    }
 }
