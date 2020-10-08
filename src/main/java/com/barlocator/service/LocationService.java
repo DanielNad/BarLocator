@@ -7,6 +7,7 @@ import com.locator.algorithms.datastructures.Graph;
 import main.java.com.barlocator.dao.IDao;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class LocationService <T, U, V, S> {
     private IAlgoDistance algoDistance;
@@ -22,7 +23,9 @@ public class LocationService <T, U, V, S> {
     }
 
     public int[] calculateDistance(Graph var1, int var2){
-        return algoDistance.calculateDistance(var1,var2);
+        int[] distance = algoDistance.calculateDistance(var1,var2);
+        Arrays.sort(distance);
+        return distance;
     }
 
     public boolean remove (S object) throws IOException{
