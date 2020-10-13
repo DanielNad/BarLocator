@@ -85,6 +85,7 @@ public class DaoFileImpl extends IDaoAbstract<Bar> implements IDao<Bar, Menu, It
     public boolean readAll() {
         try {
             if(this.openFileToRead()) {
+                data.clear();
                 graph = (Graph<Bar>) this.getObjectInputStream().readObject();
                 for (int i : graph.getBars().keySet()) {
                     data.add(graph.getBars().get(i));
