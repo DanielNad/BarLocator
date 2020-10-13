@@ -2,10 +2,14 @@ package main.java.com.barlocator.server;
 
 import com.locator.algorithms.datastructures.Graph;
 import main.java.com.barlocator.dm.Bar;
+import main.java.com.barlocator.dm.DistanceDict;
 import main.java.com.barlocator.dm.Item;
 import main.java.com.barlocator.dm.Menu;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class Body implements Serializable {
     private static final long serialVersionUID = 4526101460377019373L;
@@ -20,7 +24,7 @@ public class Body implements Serializable {
     private String barTo;
     private int weight;
     private int i;
-    private int[] distance;
+    private List<DistanceDict> distance;
     private String status;
 
     public static BodyBuilder builder(){
@@ -114,7 +118,7 @@ public class Body implements Serializable {
         this.i = i;
     }
 
-    public int[] getDistance() {
+    public List<DistanceDict> getDistance() {
         return distance;
     }
 
@@ -126,7 +130,7 @@ public class Body implements Serializable {
         this.weight = weight;
     }
 
-    public void setDistance(int[] distance) {
+    public void setDistance(List<DistanceDict> distance) {
         this.distance = distance;
     }
 

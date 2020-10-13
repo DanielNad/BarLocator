@@ -5,9 +5,10 @@ import com.locator.algorithms.DijkstraDistanceAlgo;
 import com.locator.algorithms.IAlgoDistance;
 import com.locator.algorithms.datastructures.Graph;
 import main.java.com.barlocator.dao.IDao;
+import main.java.com.barlocator.dm.DistanceDict;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.*;
 
 public class LocationService <T, U, V, S> {
     private IAlgoDistance algoDistance;
@@ -22,10 +23,14 @@ public class LocationService <T, U, V, S> {
         return dataManager.getGraph();
     }
 
-    public int[] calculateDistance(Graph var1, int var2){
+    public List<DistanceDict> calculateDistance(Graph var1, int var2){
         int[] distance = algoDistance.calculateDistance(var1,var2);
-        Arrays.sort(distance);
-        return distance;
+        List<DistanceDict> distanceDict = new ArrayList<>();
+        for (int i = 0; i <distance.length ; i++) {
+            distanceDict.add(new DistanceDict(i,distance[i]));
+        }
+        Collections.sort(distanceDict);
+        return distanceDict;
     }
 
     public boolean remove (S object) throws IOException{

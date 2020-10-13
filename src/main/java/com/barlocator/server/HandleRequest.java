@@ -1,12 +1,16 @@
 package main.java.com.barlocator.server;
 
 import com.google.gson.Gson;
+import main.java.com.barlocator.dm.DistanceDict;
 import main.java.com.barlocator.service.Controller;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Dictionary;
+import java.util.List;
+import java.util.Map;
 
 public class HandleRequest implements Runnable {
     private Socket client;
@@ -16,7 +20,7 @@ public class HandleRequest implements Runnable {
     private DataOutputStream out;
     private Gson gson;
     private Controller controller;
-    private int [] distance;
+    private List<DistanceDict> distance;
 
     public HandleRequest(Socket client,Controller controller ) {
         this.client = client;

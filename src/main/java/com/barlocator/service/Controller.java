@@ -3,8 +3,12 @@ package main.java.com.barlocator.service;
 import com.locator.algorithms.DijkstraDistanceAlgo;
 import com.locator.algorithms.datastructures.Graph;
 import main.java.com.barlocator.dao.DaoFileImpl;
+import main.java.com.barlocator.dm.DistanceDict;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class Controller<T,U,V,S> {
     private LocationService <T,U,V,S> locationService;
@@ -21,7 +25,7 @@ public class Controller<T,U,V,S> {
         return locationService.getGraph();
     }
 
-    public int[] calculateDistance(Graph var1, int var2){
+    public List<DistanceDict> calculateDistance(Graph var1, int var2){
         return locationService.calculateDistance(var1,var2);
     }
 

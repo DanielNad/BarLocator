@@ -2,8 +2,13 @@ package main.java.com.barlocator.server;
 
 import com.locator.algorithms.datastructures.Graph;
 import main.java.com.barlocator.dm.Bar;
+import main.java.com.barlocator.dm.DistanceDict;
 import main.java.com.barlocator.dm.Item;
 import main.java.com.barlocator.dm.Menu;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class BodyBuilder {
     private Bar bar;
@@ -14,10 +19,10 @@ public class BodyBuilder {
     private String barName;
     private String menuName;
     private String itemName;
-    private  String barTo;
+    private String barTo;
     private int weight;
     private int i;
-    private int[] distance;
+    private List<DistanceDict> distance;
     private String status;
 
     public BodyBuilder bar (Bar bar){
@@ -70,7 +75,7 @@ public class BodyBuilder {
         return this;
     }
 
-    public BodyBuilder distance (int[] distance){
+    public BodyBuilder distance (ArrayList<DistanceDict> distance){
         this.distance = distance;
         return this;
     }
