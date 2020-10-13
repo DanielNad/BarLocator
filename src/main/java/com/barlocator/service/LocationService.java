@@ -23,9 +23,9 @@ public class LocationService <T, U, V, S> {
         return dataManager.getGraph();
     }
 
-    public List<DistanceDict> calculateDistance(Graph var1, int var2){
+    public ArrayList<DistanceDict> calculateDistance(Graph var1, int var2){
         int[] distance = algoDistance.calculateDistance(var1,var2);
-        List<DistanceDict> distanceDict = new ArrayList<>();
+        ArrayList<DistanceDict> distanceDict = new ArrayList<>();
         for (int i = 0; i <distance.length ; i++) {
             distanceDict.add(new DistanceDict(i,distance[i]));
         }

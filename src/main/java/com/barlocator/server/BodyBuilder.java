@@ -22,7 +22,7 @@ public class BodyBuilder {
     private String barTo;
     private int weight;
     private int i;
-    private List<DistanceDict> distance;
+    private ArrayList<DistanceDict> distance;
     private String status;
 
     public BodyBuilder bar (Bar bar){

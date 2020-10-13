@@ -8,9 +8,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Dictionary;
-import java.util.List;
-import java.util.Map;
+import java.util.ArrayList;
+
 
 public class HandleRequest implements Runnable {
     private Socket client;
@@ -20,7 +19,7 @@ public class HandleRequest implements Runnable {
     private DataOutputStream out;
     private Gson gson;
     private Controller controller;
-    private List<DistanceDict> distance;
+    private ArrayList<DistanceDict> distance;
 
     public HandleRequest(Socket client,Controller controller ) {
         this.client = client;

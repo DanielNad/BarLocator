@@ -25,7 +25,7 @@ public class Controller<T,U,V,S> {
         return locationService.getGraph();
     }
 
-    public List<DistanceDict> calculateDistance(Graph var1, int var2){
+    public ArrayList<DistanceDict> calculateDistance(Graph var1, int var2){
         return locationService.calculateDistance(var1,var2);
     }
 

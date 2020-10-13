@@ -24,7 +24,7 @@ public class Body implements Serializable {
     private String barTo;
     private int weight;
     private int i;
-    private List<DistanceDict> distance;
+    private ArrayList<DistanceDict> distance;
     private String status;
 
     public static BodyBuilder builder(){
@@ -118,7 +118,7 @@ public class Body implements Serializable {
         this.i = i;
     }
 
-    public List<DistanceDict> getDistance() {
+    public ArrayList<DistanceDict> getDistance() {
         return distance;
     }
 
@@ -130,7 +130,7 @@ public class Body implements Serializable {
         this.weight = weight;
     }
 
-    public void setDistance(List<DistanceDict> distance) {
+    public void setDistance(ArrayList<DistanceDict> distance) {
         this.distance = distance;
     }
 
