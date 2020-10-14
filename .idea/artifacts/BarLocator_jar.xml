@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="BarLocator:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/BarLocator_jar</output-path>
+    <root id="archive" name="BarLocator.jar">
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/gson-2.8.6.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/DistanceAlgorithm.jar" path-in-jar="/" />
+      <element id="module-output" name="BarLocator" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src/main/java/com/barlocator/dm" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/com/barlocator/server/Header.java" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/com/barlocator/server/Request.java" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/com/barlocator/server/Response.java" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/com/barlocator/server/Body.java" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/java/com/barlocator/server/BodyBuilder.java" />
+      <element id="file-copy" path="$PROJECT_DIR$/lib/DistanceAlgorithm.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/lib/gson-2.8.6.jar" />
+    </root>
+  </artifact>
+</component>
