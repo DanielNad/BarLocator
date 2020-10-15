@@ -5,6 +5,7 @@ import main.java.com.barlocator.dao.DaoFileImpl;
 import main.java.com.barlocator.dm.Bar;
 import main.java.com.barlocator.dm.Item;
 import main.java.com.barlocator.dm.Menu;
+
 import org.junit.Before;
 import org.junit.Test;
 

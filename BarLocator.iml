@@ -22,7 +22,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/out/artifacts/BarLocator_jar/DistanceAlgorithm.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/DistanceAlgorithm.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
